@@ -7,14 +7,18 @@ const app = express();
 // Here we are telling Passport to be aware about new GStrategy - a way for our users to authenticate.
 passport.use(
     new GoogleStrategy(
-    {
-        clientID: keys.googleClientID,
-        clientSecret: keys.googleClientSecret,
-        callbackURL: '/auth/google/callback'
-    }, 
-    accessToken => {
+        {
+            clientID: keys.googleClientID,
+            clientSecret: keys.googleClientSecret,
+            callbackURL: '/auth/google/callback'
+        }, 
+        (accessToken, refreshToken, profile, done) => {
+            console.log('accessToken', accessToken);
+            console.log('refreshToken', refreshToken);
+            console.log('profile', profile);
 
-    })
+        }
+    )
 );
 
 app.get(
@@ -22,6 +26,10 @@ app.get(
     passport.authenticate('google', {
     scope: ['profile', 'email']
 }));
+
+app.get('/auth/google/callback',
+    passport.authenticate('google')    
+);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT);
