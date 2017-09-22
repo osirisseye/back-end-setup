@@ -1,11 +1,10 @@
 const express = require('express');
-// es2015 is not available - we depend on CommonJS 
-const app = express();
+const passport = require('passport');
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
-//let's create a route handler - here accessing '/'
-app.get('/', (req, res) => {
-    res.send({ hi: 'there - fresh change = deploy again' })
-});
+const app = express();
+// Here we are telling Passport to be aware about new GStrategy - a way for our users to authenticate.
+passport.use(new GoogleStrategy());
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT);
