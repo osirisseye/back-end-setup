@@ -26,7 +26,7 @@ passport.use(
                         .save()
                         .then(user => done(null, user));
                     }
-                })
+                });
         }
     )
 );
